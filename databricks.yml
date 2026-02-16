@@ -61,25 +61,6 @@ resources:
   jobs:
     my_job:
       name: my_job
-
-      tags:
-        dev: ilya_kuznetsov_foo
-      email_notifications:
-        no_alert_for_skipped_runs: true
-      notification_settings:
-        no_alert_for_canceled_runs: false
-        no_alert_for_skipped_runs: true
-      performance_target: STANDARD
-      tasks:
-        - disabled: false
-          email_notifications: {}
-          notebook_task:
-            notebook_path: ./notebook.ipynb
-            source: WORKSPACE
-          run_if: ALL_SUCCESS
-          task_key: new_task
-          timeout_seconds: 0
-          webhook_notifications: {}
       webhook_notifications:
         on_failure:
           - id: a3ed17dd-2658-45fc-9b45-850205add9a8
