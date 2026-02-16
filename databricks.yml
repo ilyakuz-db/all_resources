@@ -99,13 +99,13 @@ resources:
             path: ./notebook.ipynb
 
       tags:
-        dev: ilya_kuznetsov_foo
-  # quality_monitors:
-  #   my_quality_monitor:
-  #     table_name: ${var.catalog}.${var.schema}.orders_daily
-  #     output_schema_name: ${var.catalog}.${var.schema}
-  #     assets_dir: /Users/ilya.kuznetsov@databricks.com/my_quality_monitor/assets
-  #     snapshot: {}
+        dev: ilya_kuznetsosdgsdfds
+        # quality_monitors:
+        #   my_quality_monitor:
+        #     table_name: ${var.catalog}.${var.schema}.orders_daily
+        #     output_schema_name: ${var.catalog}.${var.schema}
+        #     assets_dir: /Users/ilya.kuznetsov@databricks.com/my_quality_monitor/assets
+        #     snapshot: {}
 
   registered_models:
     my_registered_model:
