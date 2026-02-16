@@ -1,0 +1,23 @@
+{
+  "evaluation": {
+    "source": {
+      "name": "",
+      "display": "",
+      "aggregation": "AGGREGATION_UNSPECIFIED"
+    },
+    "comparison_operator": "LESS_THAN",
+    "threshold": {
+      "value": {
+        "string_value": "101"
+      }
+    },
+    "notification": {}
+  },
+  "schedule": {
+    "quartz_cron_schedule": "33 28 16 * * ?",
+    "timezone_id": "Europe/Amsterdam"
+  },
+  "query_lines": [
+    "select 100"
+  ]
+}
