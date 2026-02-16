@@ -18,15 +18,18 @@ variables:
 
 resources:
   # apps:
-    # my_app:
-    #   name: my-app
-    #   source_code_path: "."
+  # my_app:
+  #   name: my-app
+  #   source_code_path: "."
 
-  clusters: 
+  clusters:
     my_cluster:
       autotermination_minutes: 30
       aws_attributes:
         zone_id: auto
+        availability: ON_DEMAND
+        first_on_demand: 1
+        spot_bid_price_percent: 100
       cluster_name: my_personal_cluster
       data_security_mode: SINGLE_USER
       is_single_node: true
@@ -37,19 +40,49 @@ resources:
       policy_id: 1562FBDFAD000F01
       use_ml_runtime: true
 
+      custom_tags:
+        ResourceClass: SingleNode
+      driver_node_type_id: rd-fleet.xlarge
+      enable_elastic_disk: true
+      runtime_engine: STANDARD
+      spark_conf:
+        spark.databricks.cluster.profile: singleNode
+        spark.master: local[*, 4]
   dashboards:
     my_dashboard:
       display_name: my_dashboard
       warehouse_id: dd43ee29fedd958d
-    
+
   experiments:
     my_experiment:
       name: /Users/ilya.kuznetsov@databricks.com/my-experiment
 
+      artifact_location: dbfs:/databricks/mlflow-tracking/2165795372213227
   jobs:
     my_job:
       name: my_job
 
+      tags:
+        dev: ilya_kuznetsov_foo
+      email_notifications:
+        no_alert_for_skipped_runs: true
+      notification_settings:
+        no_alert_for_canceled_runs: false
+        no_alert_for_skipped_runs: true
+      performance_target: STANDARD
+      tasks:
+        - disabled: false
+          email_notifications: {}
+          notebook_task:
+            notebook_path: ./notebook.ipynb
+            source: WORKSPACE
+          run_if: ALL_SUCCESS
+          task_key: new_task
+          timeout_seconds: 0
+          webhook_notifications: {}
+      webhook_notifications:
+        on_failure:
+          - id: a3ed17dd-2658-45fc-9b45-850205add9a8
   model_serving_endpoints:
     my_model_serving_endpoint:
       name: my_model_serving_endpoint
@@ -64,20 +97,26 @@ resources:
       libraries:
         - notebook:
             path: ./notebook.ipynb
-      
+
+      tags:
+        dev: ilya_kuznetsov_foo
   # quality_monitors:
   #   my_quality_monitor:
   #     table_name: ${var.catalog}.${var.schema}.orders_daily
   #     output_schema_name: ${var.catalog}.${var.schema}
   #     assets_dir: /Users/ilya.kuznetsov@databricks.com/my_quality_monitor/assets
   #     snapshot: {}
-  
+
   registered_models:
     my_registered_model:
       name: my_registered_model
       catalog_name: ${var.catalog}
       schema_name: ${var.catalog}
 
+      full_name: main.main.dev_ilya_kuznetsov_my_registered_model
+      metastore_id: 19a85dee-54bc-43a2-87ab-023d0ec16013
+      owner: ilya.kuznetsov@databricks.com
+      storage_location: s3://us-west-2-extstaging-managed-catalog-test-bucket-1/19a85dee-54bc-43a2-87ab-023d0ec16013/models/b5d1c4ea-6ef9-4d82-ad3a-a7b601a6e7bd
   schemas:
     my_schema:
       name: my_schema
@@ -86,42 +125,47 @@ resources:
   # secret_scopes:
   #   my_secret_scope:
   #     name: ${workspace.current_user.short_name}_my_secret_scope
-      
+
   volumes:
     my_volume:
       name: "my_volume"
       catalog_name: ${var.catalog}
       schema_name: ${var.schema}
 
+      storage_location: s3://us-west-2-extstaging-managed-catalog-test-bucket-1/19a85dee-54bc-43a2-87ab-023d0ec16013/volumes/744e3601-7b86-4a36-816a-5df7a914b90d
   sql_warehouses:
     sql_warehouse1:
       name: "Ilya Kuznetsov's warehouse"
       cluster_size: X-Large
 
-  # database_instances:
-  #   db_instance:
-  #     name: ilya-k-db-instance
-  #     capacity: CU_2
+      creator_name: ilya.kuznetsov@databricks.com
+      # database_instances:
+      #   db_instance:
+      #     name: ilya-k-db-instance
+      #     capacity: CU_2
 
-  # database_catalogs:
-  #   db_catalog:
-  #     name: ilya_k_db_catalog
-  #     database_name: databricks_postgres
-  #     database_instance_name: ilya-k-db-instance
+      min_num_clusters: 1
+      warehouse_type: CLASSIC
 
-  # synced_database_tables:
-  #   sync_db_table:
-  #     name: ilya_k_sync_table
-  #     database_instance_name: ilya-k-db-instance
-  #     spec:
-  #       create_database_objects_if_missing: true
-  #       source_table_full_name: 'my_source_table'
-  #       scheduling_policy: SNAPSHOT
-        # primary_key_columns:
-        #   - my_pk_column
-        # new_pipeline_spec:
-        #   storage_catalog: 'my_delta_catalog'
-        #   storage_schema: 'my_delta_schema'
+# database_catalogs:
+#   db_catalog:
+#     name: ilya_k_db_catalog
+#     database_name: databricks_postgres
+#     database_instance_name: ilya-k-db-instance
+
+# synced_database_tables:
+#   sync_db_table:
+#     name: ilya_k_sync_table
+#     database_instance_name: ilya-k-db-instance
+#     spec:
+#       create_database_objects_if_missing: true
+#       source_table_full_name: 'my_source_table'
+#       scheduling_policy: SNAPSHOT
+# primary_key_columns:
+#   - my_pk_column
+# new_pipeline_spec:
+#   storage_catalog: 'my_delta_catalog'
+#   storage_schema: 'my_delta_schema'
 
 targets:
   dev:
