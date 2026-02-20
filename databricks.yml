@@ -18,15 +18,18 @@ variables:
 
 resources:
   # apps:
-    # my_app:
-    #   name: my-app
-    #   source_code_path: "."
+  # my_app:
+  #   name: my-app
+  #   source_code_path: "."
 
-  clusters: 
+  clusters:
     my_cluster:
       autotermination_minutes: 30
       aws_attributes:
         zone_id: auto
+        availability: ON_DEMAND
+        first_on_demand: 1
+        spot_bid_price_percent: 100
       cluster_name: my_personal_cluster
       data_security_mode: SINGLE_USER
       is_single_node: true
@@ -37,18 +40,24 @@ resources:
       policy_id: 1562FBDFAD000F01
       use_ml_runtime: true
 
+      custom_tags:
+        ResourceClass: SingleNode
+      runtime_engine: STANDARD
+      spark_conf:
+        spark.databricks.cluster.profile: singleNode
+        spark.master: local[*, 4]
   dashboards:
     my_dashboard:
       display_name: my_dashboard
       warehouse_id: dd43ee29fedd958d
-    
+
   experiments:
     my_experiment:
       name: /Users/ilya.kuznetsov@databricks.com/my-experiment
 
   jobs:
     my_job:
-      name: my_job
+      name: '[dev ilya_kuznetsov] my_jobs'
 
   model_serving_endpoints:
     my_model_serving_endpoint:
@@ -64,14 +73,17 @@ resources:
       libraries:
         - notebook:
             path: ./notebook.ipynb
-      
-  # quality_monitors:
-  #   my_quality_monitor:
-  #     table_name: ${var.catalog}.${var.schema}.orders_daily
-  #     output_schema_name: ${var.catalog}.${var.schema}
-  #     assets_dir: /Users/ilya.kuznetsov@databricks.com/my_quality_monitor/assets
-  #     snapshot: {}
-  
+
+      tags:
+        dev: ilya_kuznetsov
+        # quality_monitors:
+        #   my_quality_monitor:
+        #     table_name: ${var.catalog}.${var.schema}.orders_daily
+        #     output_schema_name: ${var.catalog}.${var.schema}
+        #     assets_dir: /Users/ilya.kuznetsov@databricks.com/my_quality_monitor/assets
+        #     snapshot: {}
+      target: main
+
   registered_models:
     my_registered_model:
       name: my_registered_model
@@ -86,7 +98,7 @@ resources:
   # secret_scopes:
   #   my_secret_scope:
   #     name: ${workspace.current_user.short_name}_my_secret_scope
-      
+
   volumes:
     my_volume:
       name: "my_volume"
@@ -103,25 +115,25 @@ resources:
   #     name: ilya-k-db-instance
   #     capacity: CU_2
 
-  # database_catalogs:
-  #   db_catalog:
-  #     name: ilya_k_db_catalog
-  #     database_name: databricks_postgres
-  #     database_instance_name: ilya-k-db-instance
+# database_catalogs:
+#   db_catalog:
+#     name: ilya_k_db_catalog
+#     database_name: databricks_postgres
+#     database_instance_name: ilya-k-db-instance
 
-  # synced_database_tables:
-  #   sync_db_table:
-  #     name: ilya_k_sync_table
-  #     database_instance_name: ilya-k-db-instance
-  #     spec:
-  #       create_database_objects_if_missing: true
-  #       source_table_full_name: 'my_source_table'
-  #       scheduling_policy: SNAPSHOT
-        # primary_key_columns:
-        #   - my_pk_column
-        # new_pipeline_spec:
-        #   storage_catalog: 'my_delta_catalog'
-        #   storage_schema: 'my_delta_schema'
+# synced_database_tables:
+#   sync_db_table:
+#     name: ilya_k_sync_table
+#     database_instance_name: ilya-k-db-instance
+#     spec:
+#       create_database_objects_if_missing: true
+#       source_table_full_name: 'my_source_table'
+#       scheduling_policy: SNAPSHOT
+# primary_key_columns:
+#   - my_pk_column
+# new_pipeline_spec:
+#   storage_catalog: 'my_delta_catalog'
+#   storage_schema: 'my_delta_schema'
 
 targets:
   dev:
