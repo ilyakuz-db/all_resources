@@ -59,6 +59,11 @@ resources:
     my_job:
       name: '[dev ilya_kuznetsov] my_jobs'
 
+      trigger:
+        pause_status: PAUSED
+        periodic:
+          interval: 1
+          unit: DAYS
   model_serving_endpoints:
     my_model_serving_endpoint:
       name: my_model_serving_endpoint
@@ -84,6 +89,7 @@ resources:
         #     snapshot: {}
       target: main
 
+      root_path: ./[dev ilya_kuznetsov] my_pipeline
   registered_models:
     my_registered_model:
       name: my_registered_model
