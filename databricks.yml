@@ -60,7 +60,7 @@ resources:
       name: '[dev ilya_kuznetsov] my_jobs'
 
       trigger:
-        pause_status: PAUSED
+        pause_status: UNPAUSED
         periodic:
           interval: 1
           unit: DAYS
@@ -76,9 +76,8 @@ resources:
     my_pipeline:
       name: my_pipeline
       libraries:
-        - notebook:
-            path: ./notebook.ipynb
-
+        - glob:
+            include: ./notebook.ipynb
       tags:
         dev: ilya_kuznetsov
         # quality_monitors:
@@ -89,7 +88,7 @@ resources:
         #     snapshot: {}
       target: main
 
-      root_path: ./[dev ilya_kuznetsov] my_pipeline
+      root_path: /Workspace/Users/ilya.kuznetsov@databricks.com/all_resources
   registered_models:
     my_registered_model:
       name: my_registered_model
@@ -151,8 +150,8 @@ targets:
     default: true
     workspace:
       host: https://e2-dogfood.staging.cloud.databricks.com
-    presets:
-      source_linked_deployment: false
+    # presets:
+    #   source_linked_deployment: false
     variables:
       catalog: main
       schema: ${workspace.current_user.short_name}
