@@ -1,7 +1,7 @@
 resources:
   jobs:
     my_job:
-      name: my_job
+      name: my_job_v2
       tags: {domain: debug}
       tasks:
         - task_key: main
