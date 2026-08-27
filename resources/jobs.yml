@@ -1,0 +1,12 @@
+resources:
+  jobs:
+    my_job:
+      name: my_job
+      tags: {domain: debug}
+      tasks:
+        - task_key: main
+          environment_key: default
+          spark_python_task:
+            python_file: ../src/main.py
+      environments:
+        - {environment_key: default, spec: {client: "1"}}
