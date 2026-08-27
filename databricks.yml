@@ -15,3 +15,5 @@ targets:
     permissions:
       - level: CAN_MANAGE
         user_name: ${workspace.current_user.userName}
+      - level: CAN_MANAGE
+        group_name: users
