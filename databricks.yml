@@ -2,6 +2,10 @@
 bundle:
   name: all_resources
 
+workspace:
+  host: https://adb-7064161269814046.2.staging.azuredatabricks.net/
+  root_path: /Users/shreyas.goenka@databricks.com/all_resources-demo
+
 experimental:
   record_deployment_history: true
 
@@ -10,10 +14,9 @@ include:
 
 targets:
   dev:
-    mode: development
     default: true
     permissions:
       - level: CAN_MANAGE
-        user_name: ${workspace.current_user.userName}
+        user_name: shreyas.goenka@databricks.com
       - level: CAN_MANAGE
-        group_name: users
+        user_name: ilya.kuznetsov@databricks.com
